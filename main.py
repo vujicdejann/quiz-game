@@ -9,7 +9,7 @@ class QuizGame:
         # Set variable for default value of question number
         self.question_number = 0
 
-        # Integer type for selected opions
+        # Set integer type for selected opions
         self.selected_options = IntVar()
 
         # Set radio buttons for current questions
@@ -49,6 +49,8 @@ class QuizGame:
         # Create radio buttons
         option_list = []
         position = 160
+        
+        # Set selected options in list and create radio buttons
         while len(option_list) < 4:
             radio_button = Radiobutton(frame, text=" ", variable=self.selected_options, value=len(option_list) + 1,
                                        font=("Helvetica", 14), bg="#065569", fg="#ffffff")
@@ -61,25 +63,30 @@ class QuizGame:
     def options(self):
         i = 0
         self.selected_options.set(0)
-
+        
         for option in options[self.question_number]:
             self.radio_option[i]['text'] = option
             i += 1
 
     def check_answers(self, question_number):
+        # Check answer is correct or worng
         if self.selected_options.get() == answer[self.question_number]:
             return True
 
     def results(self):
+        # Calc correct and wrong answers
         count = self.data_size - self.correct
         correct = "Correct answers: ", self.correct
         wrong = "Wrong answers: ", count
-
+        
+        # Calc percentage
         score = int(self.correct / self.data_size * 100)
         result = "Score: ", score, "%"
-
+        
+        # Show info 
         mb.showinfo("Result: ", f"{result}\n{correct}\n{wrong}")
-
+    
+    # Next button logic
     def next_button(self):
         if self.check_answers(self.question_number):
             self.correct += 1
@@ -95,13 +102,8 @@ class QuizGame:
             self.options()
 
 
-
-
-
-
-
-
 if __name__ == "__main__":
+    # Configure gui 
     frame = Tk()
     frame.geometry("600x400")
     frame.resizable(width=False, height=False)
@@ -116,6 +118,7 @@ if __name__ == "__main__":
     question = (data['question'])
     options = (data['options'])
     answer = (data['answer'])
-
+    
+    # Start game
     application = QuizGame()
     frame.mainloop()
